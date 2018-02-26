@@ -1,0 +1,12 @@
+body {
+    padding-top: 60px;
+    font-family: 'Raleway', sans-serif;
+    background-color: khaki;
+}
+
+#clockLayout {
+    width: 800px;
+    height: 1000px;
+    margin: auto;
+    background-color: red;
+}
