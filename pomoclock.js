@@ -1,12 +1,4 @@
 /*
-* Need something to track the Break Length and the Session Length
-* The session length counts down until it ends then the break length starts and counts down until it ends.
-* This keeps switching back and forward until user stops using the clock.
-* It looks like the Date object could be useful here as well as setTimeout()
-* Upon further reading setTimeout may not be best. requestionAnimationFrame() might be though.
-*/
-
-/*
 * Session timer
 * Should be able to increase and decrease by one minute.
 * Default session time is 25 minutes.
@@ -58,51 +50,106 @@ var breakTime = ( function() {
 * Once the break time is zero, then the session time is displayed.
 */
 
+
+
 /*
 * Animation controller. This should update the time that is displayed. It should run every second and shows the time decrementing
 *
 */
 var starttime;
 var clockFace =  document.getElementById("clock");
-var counter = sessionTime.value();
+var sessionCounter = 10;
 
-function countDown(timestamp,duration) {
+var myReq;
+
+function countDown(timestamp,duration,counter) {
     console.log("Timestamp before nowtime assignment is " + timestamp);
+    var privateCount = counter;
     var nowTime = timestamp || new Date().getTime();
     var runTime = nowTime - startTime
     
-    console.log("Nowtime is " + nowTime);
+    console.log("nowtime is " + nowTime);
     console.log("startTime is " + startTime);
     console.log("Runtime is " + runTime);
-    console.log("Counter is " + counter);
+    console.log("Counter is " + privateCount); 
     
   
-    if (runTime < duration) {
+    if (runTime < duration && privateCount >=0  ) {
         requestAnimationFrame ( function(timestamp) {
-            countDown(timestamp,duration)
+            countDown(timestamp,duration,privateCount)
         })
-    } else if (counter >= 0) {
-        clockFace.textContent = counter--;
+    } else if (runTime > duration && privateCount >= 0) {
+        clockFace.textContent = privateCount--;
         requestAnimationFrame ( function(timestamp) {
-            startTime = timestamp || new Date().getTime;
-            countDown(timestamp,1000)
+            startTime = timestamp || new Date().getTime; //timestamp is relative to when it first called
+            countDown(timestamp,1000,privateCount)
         });
      }
+     console.log(privateCount);
+     if (privateCount == 0 ) {
+        cancelAnimationFrame(myReq);
+        console.log("Made it here");
+     }
+     
+     
 }
 
+// Need a way to loop it and alternate between break and session timers
+// 
+function startPomo() {   
+    myReq = window.requestAnimationFrame(function (timestamp) {
+        startTime = timestamp || new Date().getTime; //store the time that this was called
+        countDown(timestamp,1000,sessionCounter); // Time in milliseconds
+    });
+}
+    console.log("the end");
+    
+    
+    clockFace.textContent = "BREAK!";
+    console.log("Why");
+    /*
+    window.requestAnimationFrame(function (timestamp) {
+        startTime = timestamp || new Date().getTime; //store the time that this was called
+        countDown(timestamp,1000,sessionCounter); // Time in milliseconds
+    });
+    */
+/*
+    sessionCounter = breakTime.value();
+    window.requestAnimationFrame(function (timestamp) {
+        startTime = timestamp || new Date().getTime; //store the time that this was called
+        countDown(timestamp,1000,sessionCounter); // Time in milliseconds
+    });
+*/
 
-window.requestAnimationFrame(function (timestamp) {
-    startTime = timestamp || new Date().getTime;
-    countDown(timestamp,1000); // Time in milliseconds
-});
+/* 
+* Build out some buttons to control the break timer and the session timer
 
+var breakIncrease = document.getElementById("breakAdd");
+var breakDecrease = document.getElementById("breakSubtract");
 
+var sessionIncrease = document.getElementById("sessionAdd");
+var sessionDecrease = document.getElementById("sessionSubtract");
 
+breakIncrease.addEventListener("click", breakTime.increment());
+breakDecrease.addEventListener("click", breakTime.decrement());
 
+sessionIncrease.addEventListener("click", sessionTime.increment());
+sessionDecrease.addEventListener("click", sessionTime.decrement());
+
+/*
+* Buttons to start and stop timer
+*/
+
+var startBtn = document.getElementById("clockStart");
+var stopBtn = document.getElementById("clockStop");
+startBtn.addEventListener("click", startPomo);
+stopBtn.addEventListener("click");
+
+/*
 // Playing with timers
 sessionTime.increment();
 console.log(sessionTime.value());
 console.log("test");
 
 breakTime.decrement();
-console.log(breakTime.value());
+console.log(breakTime.value());*/
