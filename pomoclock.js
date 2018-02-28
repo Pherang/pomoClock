@@ -67,28 +67,33 @@ var clockFace =  document.getElementById("clock");
 var counter = sessionTime.value();
 
 function countDown(timestamp,duration) {
-    console.log("Timestamp is " + timestamp);
+    console.log("Timestamp before nowtime assignment is " + timestamp);
     var nowTime = timestamp || new Date().getTime();
     var runTime = nowTime - startTime
     
-    console.log("Runtime is " + runTime);
-    console.log("Duration is " + duration);
-    console.log("Counter is " + counter);
     console.log("Nowtime is " + nowTime);
-    if (runTime % 1000 == 0) {
-        clockFace.textContent = counter--;
-    }
-    if (runTime < duration && counter >= 0 ) {
+    console.log("startTime is " + startTime);
+    console.log("Runtime is " + runTime);
+    console.log("Counter is " + counter);
+    
+  
+    if (runTime < duration) {
         requestAnimationFrame ( function(timestamp) {
-            cSountDown(timestamp,duration)
+            countDown(timestamp,duration)
         })
-    } 
+    } else if (counter >= 0) {
+        clockFace.textContent = counter--;
+        requestAnimationFrame ( function(timestamp) {
+            startTime = timestamp || new Date().getTime;
+            countDown(timestamp,1000)
+        });
+     }
 }
 
 
 window.requestAnimationFrame(function (timestamp) {
     startTime = timestamp || new Date().getTime;
-    countDown(timestamp,5000); // Time in milliseconds
+    countDown(timestamp,1000); // Time in milliseconds
 });
 
 
