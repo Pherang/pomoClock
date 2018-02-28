@@ -62,10 +62,34 @@ var breakTime = ( function() {
 * Animation controller. This should update the time that is displayed. It should run every second and shows the time decrementing
 *
 */
+var starttime;
+var clockFace =  document.getElementById("clock");
+var counter = sessionTime.value();
+
+function countDown(timestamp,duration) {
+    console.log("Timestamp is " + timestamp);
+    var nowTime = timestamp || new Date().getTime();
+    var runTime = nowTime - startTime
+    
+    console.log("Runtime is " + runTime);
+    console.log("Duration is " + duration);
+    console.log("Counter is " + counter);
+    console.log("Nowtime is " + nowTime);
+    if (runTime % 1000 == 0) {
+        clockFace.textContent = counter--;
+    }
+    if (runTime < duration && counter >= 0 ) {
+        requestAnimationFrame ( function(timestamp) {
+            cSountDown(timestamp,duration)
+        })
+    } 
+}
 
 
-
-window.requestAnimationFrame(countDown);
+window.requestAnimationFrame(function (timestamp) {
+    startTime = timestamp || new Date().getTime;
+    countDown(timestamp,5000); // Time in milliseconds
+});
 
 
 
