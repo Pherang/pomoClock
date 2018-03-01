@@ -4,7 +4,10 @@
 * Default session time is 25 minutes.
 */
 var sessionTime = ( function() {
-    var counter = 25;
+    var counterDate = new Date();
+    counterDate.setMinutes(1);
+    counter = counterDate;
+    
     function changeCounter(val) {
         counter += val;
     } // Return an object with the key value pairs.
@@ -27,7 +30,9 @@ var sessionTime = ( function() {
 * Default break time is 5 minutes.
 */
 var breakTime = ( function() {
-    var counter = 5;
+    var counterDate = new Date();
+    counterDate.setMinutes(1);
+    counter = counterDate;
     function changeCounter(val) {
         counter += val;
     } // Return an object with the key value pairs.
@@ -86,7 +91,9 @@ function countDown(timestamp,duration,counter) {
             countDown(timestamp,duration,privateCount)
         })
     } else if (runTime > duration && privateCount >= 0 && myReq) {
-        clockFace.textContent = privateCount--;
+        clockFace.textContent = privateCount.getMinutes() + ":" +privateCount.getSeconds();
+        privateCount.setSeconds(privateCount.getSeconds()-1);
+        console.log(privateCount.getSeconds);
         requestAnimationFrame ( function(timestamp) {
             startTime = timestamp || new Date().getTime; //timestamp is relative to when it first called
             countDown(timestamp,1000,privateCount)
