@@ -4,8 +4,7 @@
 * Default session time is 25 minutes.
 */
 var sessionTime = ( function() {
-    var counterDate = new Date();
-    counterDate.setMinutes(1);
+    var counterDate = new Date(Date.UTC(1970,0,1,0,0));
     counter = counterDate;
     
     function changeCounter(val) {
@@ -30,8 +29,7 @@ var sessionTime = ( function() {
 * Default break time is 5 minutes.
 */
 var breakTime = ( function() {
-    var counterDate = new Date();
-    counterDate.setMinutes(1);
+    var counterDate = new Date(Date.UTC(1970,0,1,0,0));
     counter = counterDate;
     function changeCounter(val) {
         counter += val;
@@ -76,7 +74,7 @@ var myReq;
 
 function countDown(timestamp,duration,counter) {
     
-    var privateCount = counter;
+    var privateCount = counter; // Is a date object that is tracking the time.
     var nowTime = timestamp || new Date().getTime();
     var runTime = nowTime - startTime
     /*
@@ -86,21 +84,23 @@ function countDown(timestamp,duration,counter) {
     console.log("Counter is " + privateCount); 
     */
   
-    if (runTime < duration && privateCount >=0 && myReq  ) {
+    if (runTime < duration && privateCount.getTime() >=0 && myReq  ) {
+        
         requestAnimationFrame ( function(timestamp) {
             countDown(timestamp,duration,privateCount)
         })
-    } else if (runTime > duration && privateCount >= 0 && myReq) {
-        clockFace.textContent = privateCount.getMinutes() + ":" +privateCount.getSeconds();
-        privateCount.setSeconds(privateCount.getSeconds()-1);
-        console.log(privateCount.getSeconds);
+    } else if (runTime > duration && privateCount.getTime() >= 0 && myReq) {
+        // Decrement clock and display time.
+        privateCount.setSeconds((privateCount.getSeconds()-1));
+        clockFace.textContent = privateCount.getHours() + ":" + privateCount.getMinutes() + ":" + privateCount.getSeconds();
+        console.log(privateCount.getTime());
         requestAnimationFrame ( function(timestamp) {
             startTime = timestamp || new Date().getTime; //timestamp is relative to when it first called
             countDown(timestamp,1000,privateCount)
         });
      }
      
-     if (privateCount == 0 ) {
+     if (privateCount.getTime() == 0 ) {
         // Must cancel the animation frame request. I didn't and it slows the browser down.
         cancelAnimationFrame(myReq);
         // Call this again but will need to be able to alternate between break and session timers.
@@ -114,6 +114,7 @@ function countDown(timestamp,duration,counter) {
 function startPomo() {   
     
     myReq = window.requestAnimationFrame(function (timestamp) {
+        console.log("Started");
         startTime = timestamp || new Date().getTime; //store the time that this was called
         countDown(timestamp, 1000, sessionCounter); // Time in milliseconds
         switchTimers(); // Check timers and switch it here.
@@ -159,3 +160,18 @@ console.log("test");
 
 breakTime.decrement();
 console.log(breakTime.value());*/
+
+//Code for playing with time.
+
+var data = new Date(Date.UTC(1970,0,1,0,0,0));
+console.log(data);
+
+var clock = data.toUTCString();
+console.log(clock);
+var doh = clock.indexOf(":");
+
+var final = clock.substring(doh+1,doh+6);
+
+console.log(final);
+
+console.log(data.getTime());
