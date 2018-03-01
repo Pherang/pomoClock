@@ -44,13 +44,12 @@ var breakTime = ( function() {
     };
 })();   
 /*
-* Switcher
 * Switches what is displayed on the timer. Either the break time or the session time depending on which one has run out.
 * If the session time has reached zero, the break time is displayed and starts counting down.
 * Once the break time is zero, then the session time is displayed.
 */
 var breakOn = false;
-function switchTimers(){
+function switchTimers() {
     if (breakOn == false) {
         sessionCounter = breakTime.value();
         breakOn = true;
@@ -59,7 +58,6 @@ function switchTimers(){
         breakOn = false;
     }
 }
-
 
 /*
 * Animation controller. This should update the time that is displayed. It should run every second and shows the time decrementing
@@ -107,17 +105,19 @@ function countDown(timestamp,duration,counter) {
 // Need a way to loop it and alternate between break and session timers
 // 
 function startPomo() {   
-    switchTimers(); // Check timers and switch it here.
+    
     myReq = window.requestAnimationFrame(function (timestamp) {
         startTime = timestamp || new Date().getTime; //store the time that this was called
         countDown(timestamp, 1000, sessionCounter); // Time in milliseconds
+        switchTimers(); // Check timers and switch it here.
     });
-    
 }
 
 function stopPomo() {   
     window.cancelAnimationFrame(myReq);
     myReq = undefined;
+    breakOn = false;
+    sessionCounter = sessionTime.value();
 }
     
 /* 
