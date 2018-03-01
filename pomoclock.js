@@ -85,10 +85,9 @@ function countDown(timestamp,duration,counter) {
     */
   
     if (runTime < duration && privateCount.getTime() >=0 && myReq  ) {
-        
         requestAnimationFrame ( function(timestamp) {
-            countDown(timestamp,duration,privateCount)
-        })
+        countDown(timestamp,duration,privateCount)
+    })
     } else if (runTime > duration && privateCount.getTime() >= 0 && myReq) {
         // Decrement clock and display time.
         privateCount.setSeconds((privateCount.getSeconds()-1));
@@ -110,7 +109,6 @@ function countDown(timestamp,duration,counter) {
 }
 
 // Need a way to loop it and alternate between break and session timers
-// 
 function startPomo() {   
     
     myReq = window.requestAnimationFrame(function (timestamp) {
