@@ -49,7 +49,16 @@ var breakTime = ( function() {
 * If the session time has reached zero, the break time is displayed and starts counting down.
 * Once the break time is zero, then the session time is displayed.
 */
-
+var breakOn = false;
+function switchTimers(){
+    if (breakOn == false) {
+        sessionCounter = breakTime.value();
+        breakOn = true;
+    } else if (breakOn == true) {
+        sessionCounter = sessionTime.value();
+        breakOn = false;
+    }
+}
 
 
 /*
@@ -58,69 +67,59 @@ var breakTime = ( function() {
 */
 var starttime;
 var clockFace =  document.getElementById("clock");
-var sessionCounter = 10;
+var sessionCounter = sessionTime.value();
 
 var myReq;
 
 function countDown(timestamp,duration,counter) {
-    console.log("Timestamp before nowtime assignment is " + timestamp);
+    
     var privateCount = counter;
     var nowTime = timestamp || new Date().getTime();
     var runTime = nowTime - startTime
-    
+    /*
     console.log("nowtime is " + nowTime);
     console.log("startTime is " + startTime);
     console.log("Runtime is " + runTime);
     console.log("Counter is " + privateCount); 
-    
+    */
   
-    if (runTime < duration && privateCount >=0  ) {
+    if (runTime < duration && privateCount >=0 && myReq  ) {
         requestAnimationFrame ( function(timestamp) {
             countDown(timestamp,duration,privateCount)
         })
-    } else if (runTime > duration && privateCount >= 0) {
+    } else if (runTime > duration && privateCount >= 0 && myReq) {
         clockFace.textContent = privateCount--;
         requestAnimationFrame ( function(timestamp) {
             startTime = timestamp || new Date().getTime; //timestamp is relative to when it first called
             countDown(timestamp,1000,privateCount)
         });
      }
-     console.log(privateCount);
+     
      if (privateCount == 0 ) {
+        // Must cancel the animation frame request. I didn't and it slows the browser down.
         cancelAnimationFrame(myReq);
-        console.log("Made it here");
-     }
-     
-     
+        // Call this again but will need to be able to alternate between break and session timers.
+        startPomo();
+        
+     }    
 }
 
 // Need a way to loop it and alternate between break and session timers
 // 
 function startPomo() {   
+    switchTimers(); // Check timers and switch it here.
     myReq = window.requestAnimationFrame(function (timestamp) {
         startTime = timestamp || new Date().getTime; //store the time that this was called
-        countDown(timestamp,1000,sessionCounter); // Time in milliseconds
+        countDown(timestamp, 1000, sessionCounter); // Time in milliseconds
     });
+    
 }
-    console.log("the end");
-    
-    
-    clockFace.textContent = "BREAK!";
-    console.log("Why");
-    /*
-    window.requestAnimationFrame(function (timestamp) {
-        startTime = timestamp || new Date().getTime; //store the time that this was called
-        countDown(timestamp,1000,sessionCounter); // Time in milliseconds
-    });
-    */
-/*
-    sessionCounter = breakTime.value();
-    window.requestAnimationFrame(function (timestamp) {
-        startTime = timestamp || new Date().getTime; //store the time that this was called
-        countDown(timestamp,1000,sessionCounter); // Time in milliseconds
-    });
-*/
 
+function stopPomo() {   
+    window.cancelAnimationFrame(myReq);
+    myReq = undefined;
+}
+    
 /* 
 * Build out some buttons to control the break timer and the session timer
 
@@ -143,7 +142,7 @@ sessionDecrease.addEventListener("click", sessionTime.decrement());
 var startBtn = document.getElementById("clockStart");
 var stopBtn = document.getElementById("clockStop");
 startBtn.addEventListener("click", startPomo);
-stopBtn.addEventListener("click");
+stopBtn.addEventListener("click", stopPomo);
 
 /*
 // Playing with timers
