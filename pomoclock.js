@@ -44,20 +44,27 @@ var makeTimer = function(minutes) {
     var counter = minutes * 60;
     
     function changeCounter(val) {
+        
         counter += val;
-    } // Return an object with the key value pairs.
+        }
+     // Return an object with the key value pairs.
     return {
         increment: function() {
             changeCounter(60);
         },
         decrement: function() {
+            if (counter > 0) {
             changeCounter(-60);
+            } else {
+                changeCounter(0);
+            }
+
         },
         value: function() {
             return counter;
         }
     };
-};
+}
 
 var sessionTime = makeTimer(2); // 
 var breakTime = makeTimer(1); 
@@ -73,6 +80,7 @@ function switchTimers() {
         sessionCounter = breakTime.value();
         breakOn = true;
     } else if (breakOn == true) {
+        
         sessionCounter = sessionTime.value();
         breakOn = false;
     }
@@ -140,7 +148,13 @@ function stopPomo() {
     sessionCounter = sessionTime.value();
     clockFace.textContent = translateTime(sessionCounter);
 }
-    
+
+/*
+function updateBreak(timerFunction){
+    timerFunction();
+    breakTimerDisplay.textContent = breakTime.value()/60;
+
+} */
  
 // Setup break and work timers
 var breakTimerDisplay = document.getElementById("breakTimer");
@@ -148,21 +162,18 @@ var sessionTimerDisplay = document.getElementById("sessionTimer");
 
 sessionTimerDisplay.textContent = (sessionTime.value()/60);
 breakTimerDisplay.textContent = (breakTime.value()/60);
+clockFace.textContent = (sessionTime.value()/60);
 
+/* Adjust the time on the break and work intervals*/
+var breakIncrease = document.getElementById("breakPlus");
+var breakDecrease = document.getElementById("breakMinus");
+var sessionIncrease = document.getElementById("sessionPlus");
+var sessionDecrease = document.getElementById("sessionMinus");
 
-/* Adjust the time on the break and work intervals
-var breakIncrease = document.getElementById("breakAdd");
-var breakDecrease = document.getElementById("breakSubtract");
-
-var sessionIncrease = document.getElementById("sessionAdd");
-var sessionDecrease = document.getElementById("sessionSubtract");
-
-breakIncrease.addEventListener("click", breakTime.increment());
-breakDecrease.addEventListener("click", breakTime.decrement());
-
-sessionIncrease.addEventListener("click", sessionTime.increment());
-sessionDecrease.addEventListener("click", sessionTime.decrement());
-*/
+breakIncrease.addEventListener("click", function(){ breakTime.increment(); breakTimerDisplay.textContent = breakTime.value()/60; });
+breakDecrease.addEventListener("click", function(){ breakTime.decrement(); breakTimerDisplay.textContent = breakTime.value()/60; });
+sessionIncrease.addEventListener("click", function(){ sessionTime.increment(); sessionTimerDisplay.textContent = sessionTime.value()/60; });
+sessionDecrease.addEventListener("click", function(){ sessionTime.decrement(); sessionTimerDisplay.textContent = sessionTime.value()/60; });
 
 // Controller timer's start and stop.
 var startBtn = document.getElementById("clockStart");
