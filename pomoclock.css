@@ -11,7 +11,7 @@ body {
     background-color: red;
 }
 
-#clock {
+#clock, #breakTimer, #sessionTimer     {
     font-size: 48px;
     color:white;
 }

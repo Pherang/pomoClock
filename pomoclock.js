@@ -141,9 +141,16 @@ function stopPomo() {
     clockFace.textContent = translateTime(sessionCounter);
 }
     
-/* 
-* Build out some buttons to control the break timer and the session timer
+ 
+// Setup break and work timers
+var breakTimerDisplay = document.getElementById("breakTimer");
+var sessionTimerDisplay = document.getElementById("sessionTimer");
 
+sessionTimerDisplay.textContent = (sessionTime.value()/60);
+breakTimerDisplay.textContent = (breakTime.value()/60);
+
+
+/* Adjust the time on the break and work intervals
 var breakIncrease = document.getElementById("breakAdd");
 var breakDecrease = document.getElementById("breakSubtract");
 
@@ -155,22 +162,10 @@ breakDecrease.addEventListener("click", breakTime.decrement());
 
 sessionIncrease.addEventListener("click", sessionTime.increment());
 sessionDecrease.addEventListener("click", sessionTime.decrement());
-
-/*
-* Buttons to start and stop timer
 */
 
+// Controller timer's start and stop.
 var startBtn = document.getElementById("clockStart");
 var stopBtn = document.getElementById("clockStop");
 startBtn.addEventListener("click", startPomo);
 stopBtn.addEventListener("click", stopPomo);
-
-/*
-// Playing with timers
-sessionTime.increment();
-console.log(sessionTime.value());
-console.log("test");
-
-breakTime.decrement();
-console.log(breakTime.value());*/
-
