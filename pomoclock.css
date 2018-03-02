@@ -16,3 +16,18 @@ body {
     color:white;
 }
 
+#breakArea {
+    display: flex;
+    flex-flow: row;
+}
+
+#sessionArea {
+    display: flex;
+    flex-flow: row;
+}
+
+#clockArea {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}

@@ -1,9 +1,3 @@
-/*
-* Time object. Uses seconds as its base.
-* To represent 5 minutes we'd do 300 seconds.
-* 300 / 60 = 5.
-* 300 - 1 = 299 299 / 60 =
-*/
 function translateTime(timeinput) {
     var temp;
     var secs;
@@ -12,7 +6,7 @@ function translateTime(timeinput) {
     secs = timeinput % 60;// remainder gives us seconds
     timeinput -= secs; // subtract remainder to find full minutes
     temp = timeinput / 60; // divide to get minutes.
-    mins = temp % 60; // check if there are more than 60 minutes
+    mins = temp % 60; // if it's more than an hour, modulus gives us the minutes beyond one hour.
     hrs = (temp - mins) / 60; // gives us the hour.
     // variables to display the time.
     var minsD = mins;
@@ -53,7 +47,7 @@ var makeTimer = function(minutes) {
             changeCounter(60);
         },
         decrement: function() {
-            if (counter > 0) {
+            if (counter > 60) {
             changeCounter(-60);
             } else {
                 changeCounter(0);
@@ -125,7 +119,7 @@ function countDown(timestamp,duration,counter) {
      }
      if (privateCount == 0 ) {
         // Must cancel the animation frame request. I didn't and it slows the browser down.
-        cancelAnimationFrame(myReq);
+        stopPomo();
         // Call this again but will need to be able to alternate between break and session timers.
         startPomo();
      }    
@@ -133,12 +127,17 @@ function countDown(timestamp,duration,counter) {
 
 // Need a way to loop it and alternate between break and session timers
 function startPomo() {   
-    myReq = window.requestAnimationFrame(function (timestamp) {
-        console.log("Started");
-        startTime = timestamp || new Date().getTime; //store the time that this was called
-        countDown(timestamp, 1000, sessionCounter);
-        switchTimers(); // Check timers and switch it here.
-    });
+    if (!myReq) {
+        //clockFace.textContent = translateTime(sessionTime.value());
+        myReq = window.requestAnimationFrame(function (timestamp) {
+            console.log("Started");
+            startTime = timestamp || new Date().getTime; //store the time that this was called
+            sessionCounter = (sessionTime.value()-1);
+            countDown(timestamp, 1000, sessionCounter);
+            clockFace.textContent = translateTime((sessionTime.value()-1));
+            switchTimers(); // Check timers and switch it here.
+        });
+    }
 }
 
 function stopPomo() {   
@@ -146,7 +145,7 @@ function stopPomo() {
     myReq = undefined;
     breakOn = false;
     sessionCounter = sessionTime.value();
-    clockFace.textContent = translateTime(sessionCounter);
+    //clockFace.textContent = translateTime(sessionCounter);
 }
 
 /*
@@ -162,7 +161,7 @@ var sessionTimerDisplay = document.getElementById("sessionTimer");
 
 sessionTimerDisplay.textContent = (sessionTime.value()/60);
 breakTimerDisplay.textContent = (breakTime.value()/60);
-clockFace.textContent = (sessionTime.value()/60);
+clockFace.textContent = translateTime(sessionCounter);
 
 /* Adjust the time on the break and work intervals*/
 var breakIncrease = document.getElementById("breakPlus");
