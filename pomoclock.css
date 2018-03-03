@@ -4,11 +4,19 @@ body {
     background-color: khaki;
 }
 
+#banner {
+    font-size: 48px;
+    color: tomato;
+}
+
 #clockLayout {
+    display: flex;
+    flex-direction: column;
+    align-content: space-around;
     width: 800px;
     height: 1000px;
     margin: auto;
-    background-color: red;
+    /*background-color: green;*/
 }
 
 #clock, #breakTimer, #sessionTimer     {
@@ -19,15 +27,39 @@ body {
 #breakArea {
     display: flex;
     flex-flow: row;
+    align-items: flex-end;
+    
 }
 
 #sessionArea {
     display: flex;
-    flex-flow: row;
+    justify-content: center;
+    flex-direction: column;
+    align-items: flex-end;
+    align-self: center;
 }
 
 #clockArea {
     display: flex;
     justify-content: center;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: flex-end;
+    align-self: center;
+    
+}
+
+#timersArea {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+#powerButtons {
+    display : flex;
+    justify-content:  space-between;
+}
+
+.timeBtns {
+    color:white;
+    background-color: limegreen;
 }

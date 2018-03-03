@@ -13,22 +13,32 @@
 </head>
 
 <body>  
+    <div id="banner" class="text-center">Pomodoro Clock</div>
     <div id="clockLayout" class="container">
-        <div id="breakArea">
-            <button id="breakMinus">&minus;</button>
-            <div id="breakTimer"></div>
-            <button id="breakPlus">&plus;</button>
-        </div>
-        <div id="sessionArea">
-            <button id="sessionMinus">&minus;</button>
-            <div id="sessionTimer"></div>
-            <button id="sessionPlus">&plus;</button>
+        <div id="timersArea">
+            
+            
+            <div id="breakArea">
+                <div id="breakTimer"></div>
+                <div>
+                    <button id="breakMinus" class="btn timeBtns">&minus;</button>
+                    <button id="breakPlus" class="btn timeBtns">&plus;</button>
+                </div>
+            </div>
+            <div id="sessionArea">
+                <div id="sessionTimer"></div>
+                <div>
+                    <button id="sessionMinus" class="btn timeBtns">&minus;</button>
+                    <button id="sessionPlus" class="btn timeBtns">&plus;</button>
+                </div>
+            </div>
         </div>
         <div id="clockArea">
-            <div><time id="clock"></time></div>
+            <div><time id="clock"></time>
             <div id="powerButtons">
-                <button id="clockStart" > Start </button>    
-                <button id="clockStop" > Stop </button>    
+                <button id="clockStart" class="btn timeBtns"> Start </button>    
+                <button id="clockStop" class="btn timeBtns"> Stop </button>    
+            </div>
             </div>
         </div>
     </div>
