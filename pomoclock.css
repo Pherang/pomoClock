@@ -6,9 +6,9 @@ body {
 }
 
 #banner {
-    font-size: 48px;
+    font-size: 64px;
     color: tomato;
-    font-family: 'Cinzel decorative', cursive;
+    font-family: 'Berkshire Swash', cursive;
 }
 
 #clockLayout {
@@ -59,7 +59,7 @@ body {
     font-size: 48px;
     width: 130px;
     align-self: center;
-    color: tomato;
+    color: limegreen;
     padding:5px;
     text-align: center;
 

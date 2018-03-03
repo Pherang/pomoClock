@@ -59,8 +59,8 @@ var makeTimer = function(minutes) {
   };
 }
 
-var sessionTime = makeTimer(2); // 
-var breakTime = makeTimer(1); 
+var sessionTime = makeTimer(25); // 
+var breakTime = makeTimer(5); 
 
 /*
 * Switches what is displayed on the timer. Either the break time or the session time depending on which one has run out.
@@ -70,13 +70,20 @@ var breakTime = makeTimer(1);
 var statusFace = document.getElementById("statusArea");
 
 var breakOn = false;
+var statusLabel = "Work";
+
 function switchTimers() {
-  if (breakOn == false) {
+  console.log("Called me");
+  if (breakOn === false) {
     sessionCounter = breakTime.value();
     breakOn = true;
-  } else if (breakOn == true) {
+    statusLabel = 'Break';
+    console.log('break is on!');
+  } else if (breakOn === true) {
     sessionCounter = sessionTime.value();
     breakOn = false;
+    statusLabel = 'Work';
+    console.log('break is off');
   }
 }
 
@@ -127,18 +134,17 @@ function countDown(timestamp,duration,counter) {
 // Need a way to loop it and alternate between break and session timers
 function startPomo() {   
   if (!myReq) {
-    if (breakOn === true) {
-      statusFace.textContent = "Break";
-    } else {
-      statusFace.textContent = "Work"
-    }        
+    
     myReq = window.requestAnimationFrame(function (timestamp) {
       console.log("Started");
       startTime = timestamp || new Date().getTime; //store the time that this was called
       sessionCounter = (sessionTime.value()-1);
       countDown(timestamp, 1000, sessionCounter);
       clockFace.textContent = translateTime((sessionTime.value()-1));
+      console.log(breakOn);
+      statusFace.textContent = statusLabel;
       switchTimers(); // Check timers and switch it here.
+      
     });
   }
 }
@@ -146,7 +152,6 @@ function startPomo() {
 function stopPomo() {   
   window.cancelAnimationFrame(myReq);
   myReq = undefined;
-  breakOn = false;
   sessionCounter = sessionTime.value();
 }
  
@@ -187,4 +192,9 @@ sessionDecrease.addEventListener("click", function(){
 var startBtn = document.getElementById("clockStart");
 var stopBtn = document.getElementById("clockStop");
 startBtn.addEventListener("click", startPomo);
-stopBtn.addEventListener("click", function() { stopPomo(); clockFace.textContent = translateTime(sessionCounter) });
+stopBtn.addEventListener("click", function() { 
+  breakOn = true; 
+  stopPomo(); 
+  statusFace = 'Work';
+  clockFace.textContent = translateTime(sessionCounter) 
+});
