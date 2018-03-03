@@ -55,6 +55,16 @@ body {
     padding:5px;
 }
 
+#statusArea {
+    font-size: 48px;
+    width: 130px;
+    align-self: center;
+    color: tomato;
+    padding:5px;
+    text-align: center;
+
+}
+
 #sessionArea{
     width: 130px;
     border: 1px solid;
