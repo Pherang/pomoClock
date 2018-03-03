@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    
+    <link href="https://fonts.googleapis.com/css?family=Bungee|Cinzel+Decorative|Lato|Milonga" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Cousine|VT323" rel="stylesheet">
     <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.css">
     <link rel="stylesheet" href="flexboxgrid-6.3.1/dist/flexboxgrid.css">
@@ -13,35 +13,33 @@
 </head>
 
 <body>  
-    <div id="banner" class="text-center">Pomodoro Clock</div>
-    <div id="clockLayout" class="container">
-        <div id="timersArea">
-            
-            
-            <div id="breakArea">
-                <div id="breakTimer"></div>
-                <div>
-                    <button id="breakMinus" class="btn timeBtns">&minus;</button>
-                    <button id="breakPlus" class="btn timeBtns">&plus;</button>
-                </div>
+<div id="banner" class="text-center">Pomodoro Clock</div>
+<div id="clockLayout" class="container">
+    <div id="timersArea">
+        <div id="breakArea" class="areas">
+            <div><time id="breakTimer"></time></div>
+            <div id="breakButtons">
+                <button id="breakMinus" class="btn timeBtns"> &minus; </button>
+                <button id="breakPlus" class="btn timeBtns"> &plus; </button>
             </div>
-            <div id="sessionArea">
-                <div id="sessionTimer"></div>
-                <div>
-                    <button id="sessionMinus" class="btn timeBtns">&minus;</button>
-                    <button id="sessionPlus" class="btn timeBtns">&plus;</button>
-                </div>
-            </div>
+            
         </div>
-        <div id="clockArea">
-            <div><time id="clock"></time>
+    <div id="sessionArea" class="areas">
+        <div><time id="sessionTimer"></time></div>
+        <div id="sessionButtons">
+            <button id="sessionMinus" class="btn timeBtns"> &minus; </button>
+            <button id="sessionPlus" class="btn timeBtns"> &plus; </button>
+        </div>
+    </div>
+    </div>
+    <div id="clockArea" class="areas">
+        <time id="clock"></time>
             <div id="powerButtons">
                 <button id="clockStart" class="btn timeBtns"> Start </button>    
                 <button id="clockStop" class="btn timeBtns"> Stop </button>    
             </div>
-            </div>
-        </div>
     </div>
+</div>
 
 <script src="pomoclock.js"></script>
 </body>

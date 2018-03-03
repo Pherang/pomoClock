@@ -1,12 +1,14 @@
 body {
     padding-top: 60px;
-    font-family: 'Cousine', sans-serif;
-    background-color: khaki;
+    font-family: 'Lato', sans-serif;
+    background-color: white;
+    color: tomato;
 }
 
 #banner {
     font-size: 48px;
     color: tomato;
+    font-family: 'Cinzel decorative', cursive;
 }
 
 #clockLayout {
@@ -19,42 +21,62 @@ body {
     /*background-color: green;*/
 }
 
-#clock, #breakTimer, #sessionTimer     {
+#breakTimer, #sessionTimer     {
     font-size: 48px;
-    color:white;
+    color: tomato;
+}
+
+#clock {
+    font-size: 76px;
+    color: tomato;
+
+}
+
+.areas {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+}
+
+#sessionArea{
+    width: 105px;
 }
 
 #breakArea {
-    display: flex;
-    flex-flow: row;
-    align-items: flex-end;
-    
-}
-
-#sessionArea {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: flex-end;
-    align-self: center;
+    width: 105px;
 }
 
 #clockArea {
-    display: flex;
+    height: 300px;
     justify-content: center;
-    flex-direction: row;
-    align-items: flex-end;
-    align-self: center;
-    
 }
 
 #timersArea {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     flex-direction: row;
+    align-items: flex-end;
+    align-content: flex-end;
+    height: 202px;
+    
 }
 
-#powerButtons {
+#powerButtons{
+    width: 142px; 
+    display : flex;
+    justify-content:  space-between;
+}
+
+#breakButtons{
+    width: 89px;
+    display : flex;
+    justify-content:  space-between;
+}
+
+#sessionButtons {
+    width: 89px;
     display : flex;
     justify-content:  space-between;
 }

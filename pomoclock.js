@@ -145,7 +145,7 @@ function stopPomo() {
     myReq = undefined;
     breakOn = false;
     sessionCounter = sessionTime.value();
-    //clockFace.textContent = translateTime(sessionCounter);
+    
 }
 
 /*
@@ -171,11 +171,24 @@ var sessionDecrease = document.getElementById("sessionMinus");
 
 breakIncrease.addEventListener("click", function(){ breakTime.increment(); breakTimerDisplay.textContent = breakTime.value()/60; });
 breakDecrease.addEventListener("click", function(){ breakTime.decrement(); breakTimerDisplay.textContent = breakTime.value()/60; });
-sessionIncrease.addEventListener("click", function(){ sessionTime.increment(); sessionTimerDisplay.textContent = sessionTime.value()/60; });
-sessionDecrease.addEventListener("click", function(){ sessionTime.decrement(); sessionTimerDisplay.textContent = sessionTime.value()/60; });
 
+sessionIncrease.addEventListener("click", function(){ 
+    sessionTime.increment(); 
+    sessionTimerDisplay.textContent = sessionTime.value()/60; 
+    if (!myReq) {
+        clockFace.textContent = translateTime(sessionTime.value());
+    }
+
+});
+sessionDecrease.addEventListener("click", function(){ 
+    sessionTime.decrement(); 
+    sessionTimerDisplay.textContent = sessionTime.value()/60; 
+    if (!myReq) {
+        clockFace.textContent = translateTime(sessionTime.value());
+    }
+});
 // Controller timer's start and stop.
 var startBtn = document.getElementById("clockStart");
 var stopBtn = document.getElementById("clockStop");
 startBtn.addEventListener("click", startPomo);
-stopBtn.addEventListener("click", stopPomo);
+stopBtn.addEventListener("click", function() { stopPomo(); clockFace.textContent = translateTime(sessionCounter) });
