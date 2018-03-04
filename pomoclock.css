@@ -15,7 +15,7 @@ body {
     display: flex;
     flex-direction: column;
     align-content: space-around;
-    width: 800px;
+    /*width: 800px; */
     height: 600px;
     margin: auto;
 }
@@ -116,4 +116,16 @@ body {
 .timeBtns {
     color:white;
     background-color: limegreen;
+}
+
+@media only screen and (min-width: 500px) {
+    
+    #clockLayout {
+      width: 800px;
+      height: 600px;
+      margin: auto;
+    }
+
+
+
 }
